@@ -52,10 +52,10 @@ fpath=("$HOME/.zshfunctions" "$HOME/.zsh/completions" $fpath)
 autoload -Uz \
   cwd github last_cmd_status mkd o c zmv \
   url_clean url_humanize \
-  lh lsd lsn \
+  ls lt lh lsd lsn \
   wifi_qr_code ebookify cleanup ccat g_ignore \
   watch_dirs setup_workspace_excludes tree \
-  ls copy_and_clear_line remove_spaces
+  copy_and_clear_line remove_spaces
 
 # Your aliases (keep after OMZ so they override common-aliases/etc.)
 [ -f "$HOME/.aliases.zsh" ] && source "$HOME/.aliases.zsh"
@@ -174,4 +174,5 @@ if [[ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]
   source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 export PATH="$PATH:$(go env GOPATH)/bin"
-export WRANGLER_SKIP_HOOKS=1
+export WINGMAN_SKIP_HOOKS=1
+export ANTHROPIC_MODEL=opus

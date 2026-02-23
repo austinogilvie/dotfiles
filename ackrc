@@ -61,8 +61,8 @@
 --type-set=jade=.jade
 --type-set=feature=.feature
 --type-set=json=.json,.jsonl
---type-set=js=.js,.jsx,.ts
---type-add=ts=.jsx,.ts
+--type-set=js=.js,.jsx,.ts,.tsx
+--type-add=ts=.jsx,.ts,.tsx
 
 
 --type-set=py=py

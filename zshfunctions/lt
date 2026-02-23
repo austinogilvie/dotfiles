@@ -1,0 +1,27 @@
+#!/usr/bin/env zsh
+#
+# lt — list by modified time (newest first), long format
+#
+# Plays nicely with your `ls` wrapper:
+# - In interactive shells: calls `ls` (your wrapper) so you get your defaults/colors/classify/grouping
+# - In non-interactive shells: calls plain /bin/ls to avoid warnings / wrapper behavior
+#
+# Usage:
+#   lt [LS_ARGS...] [PATH...]
+#
+# Examples:
+#   lt
+#   lt .. /tmp
+#   lt -r         # reverse (oldest first)
+#   lt --raw      # bypass your ls wrapper (handled by your ls wrapper)
+#
+
+lt() {
+  if [[ ! -o interactive ]]; then
+    command /bin/ls -lt -h "$@"
+    return
+  fi
+
+  # Use your ls() wrapper so all your defaults apply (color/classify/group-dirs when gls exists)
+  ls -lt -h "$@"
+}
