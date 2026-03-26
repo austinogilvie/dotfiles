@@ -16,5 +16,21 @@
 # }
 
 function cwd() {
-    print -P %~ | tr -d '\r\n' | pbcopy
+    local target
+
+    if [[ $# -eq 0 ]]; then
+        target=$PWD
+    elif [[ "$1" == /* || "$1" == ~* ]]; then
+        target=${~1}
+    else
+        target=$PWD/$1
+    fi
+
+    target=${target:A}
+    target=${target/#$HOME/\~}
+    if [[ $# -eq 0 && "$target" != */ ]]; then
+        target="$target/"
+    fi
+
+    print -r -- "$target" | tr -d '\r\n' | pbcopy
 }

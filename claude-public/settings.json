@@ -4,6 +4,7 @@
       "mcp__pencil"
     ]
   },
+  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir'); dir_name=$(basename \"$cwd\"); printf '\\033[1;32m➜ \\033[0m \\033[36m%s\\033[0m' \"$dir_name\"; cd \"$cwd\" 2>/dev/null && if git rev-parse --git-dir > /dev/null 2>&1; then branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null); if [ -n \"$branch\" ]; then printf ' \\033[1;34mgit:(\\033[0m\\033[31m%s\\033[0m\\033[34m)\\033[0m' \"$branch\"; if ! git diff --no-ext-diff --quiet --no-optional-locks 2>/dev/null || ! git diff --cached --no-ext-diff --quiet --no-optional-locks 2>/dev/null; then printf ' \\033[33m✗\\033[0m'; fi; fi; fi; printf '\\n'"
@@ -12,5 +13,7 @@
     "wingman@bacchus-labs": true
   },
   "alwaysThinkingEnabled": true,
+  "effortLevel": "medium",
+  "agent": "Coordinator",
   "skipDangerousModePermissionPrompt": true
 }
