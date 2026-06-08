@@ -176,3 +176,8 @@ fi
 export PATH="$PATH:$(go env GOPATH)/bin"
 export WINGMAN_SKIP_HOOKS=1
 export ANTHROPIC_MODEL=opus
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/hernamesbarbara/.lmstudio/bin"
+# End of LM Studio CLI section
+
