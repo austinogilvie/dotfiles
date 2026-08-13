@@ -1,5 +1,34 @@
 #!/usr/bin/env zsh
 
+github_usage () {
+  cat <<'EOF'
+github - open GitHub URLs for the current repo in your browser.
+
+Usage:
+  github [<path>[:<line>][-<line>]]
+  github <issue>
+  github (project | p)
+  github (-h | --help)
+
+Arguments:
+  <path>     File or directory to open. Defaults to the repo root.
+             Append :N for a single line, or :N-M for a range.
+  <issue>    Issue or PR number, e.g. 466. A path that exists on disk
+             always wins over an issue number.
+  project    Open the GitHub Project linked in .wingman/config/wingman.json.
+             Abbreviates to 'p'.
+
+Examples:
+  github                     open this repo
+  github src/main.py         open a file on the current branch
+  github src/main.py:42      open that file at line 42
+  github src/main.py:10-20   open that file, lines 10-20
+  github docs/               open a directory
+  github 466                 open issue/PR 466
+  github p                   open the linked GitHub Project
+EOF
+}
+
 github_normalize_remote_url () {
   local giturl="$1"
   local base_url="$giturl"
@@ -93,6 +122,11 @@ github_open_project () {
 
 local target="${1:-.}"
 
+if [[ "$target" == "--help" || "$target" == "-h" ]]; then
+  github_usage
+  return 0
+fi
+
 if ! command -v git >/dev/null 2>&1; then
   echo "git is not installed."
   return 1
@@ -104,7 +138,7 @@ repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || {
   return 1
 }
 
-if [[ "$target" == "project" ]]; then
+if [[ "$target" == "project" || "$target" == "p" ]]; then
   github_open_project "$repo_root"
   return $?
 fi
@@ -121,6 +155,20 @@ base_url="$(github_normalize_remote_url "$giturl")"
 if [[ -z "$base_url" ]]; then
   echo "Unsupported remote.origin.url: $giturl"
   return 1
+fi
+
+# An all-digit target (bare or '#'-prefixed) that names nothing on disk is an
+# issue number. A real path always wins, so a file literally named 466 still opens.
+local issue_number="${target#\#}"
+if [[ "$issue_number" == <-> && ! -e "$target" && ! -e "$repo_root/$target" ]]; then
+  if [[ "$base_url" == https://gist.github.com/* ]]; then
+    echo "Gists do not have issues."
+    return 1
+  fi
+  local issue_url="$base_url/issues/$issue_number"
+  echo "$issue_url"
+  command open "$issue_url"
+  return 0
 fi
 
 local branch
