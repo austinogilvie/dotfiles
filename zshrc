@@ -181,3 +181,9 @@ export ANTHROPIC_MODEL=opus
 export PATH="$PATH:/Users/hernamesbarbara/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+# Wingman vault location (gateway + CLI resolve the vault from this)
+export WINGMAN_VAULT_ROOT="$HOME/.medb"
+
+export ANTHROPIC_CUSTOM_MODEL_OPTION='claude-fable-5'
+export ANTHROPIC_CUSTOM_MODEL_OPTION_NAME='Claude Fable 5'
